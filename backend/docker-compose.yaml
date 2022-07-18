@@ -1,0 +1,42 @@
+
+version: '3.8'
+
+services:
+  mongo:
+    container_name: mongo-dev
+    image: mongo:latest
+    volumes: 
+      - mongo_data:/data/db
+    environment:
+      - MONGO_DATABASE="party"
+    ports:
+      - 27017:27017
+
+  mongo-express:
+    container_name: mongo-express
+    image: mongo-express
+    environment:
+      - ME_CONFIG_MONGODB_SERVER=mongo
+      - ME_CONFIG_MONGODB_PORT=27017
+    depends_on:
+      - mongo
+    ports:
+      - '8081:8081'
+
+  backend:
+    container_name: backend
+    build:
+      context: .
+      target: development
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
+    ports:
+      - "3333:3333"
+    command: npm run start:dev
+    restart: always
+    depends_on:
+      - mongo
+      - mongo-express
+volumes:
+  mongo_data:
