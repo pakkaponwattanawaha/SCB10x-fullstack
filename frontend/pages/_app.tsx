@@ -1,8 +1,25 @@
-import '../styles/globals.css'
-import type { AppProps } from 'next/app'
+import "../styles/globals.css";
+import { ReactNode } from "react";
+import { NextPage } from "next";
+import type { AppProps } from "next/app";
+import { Navbar } from "../components/Navbar";
 
-function MyApp({ Component, pageProps }: AppProps) {
-  return <Component {...pageProps} />
+type NextPageWithLayout = NextPage & {
+  getLayout?: () => ReactNode;
+};
+
+type AppPropsWithLayout = AppProps & {
+  Component: NextPageWithLayout;
+};
+
+function MyApp({ Component, pageProps }: AppPropsWithLayout) {
+  const getLayout = Component.getLayout ?? ((page: any) => page);
+  return (
+    <div className="h-screen mainBackground flex justify-center justify-items-center">
+      <Navbar />
+      {getLayout(<Component className="" {...pageProps} />)}
+    </div>
+  );
 }
 
-export default MyApp
+export default MyApp;
