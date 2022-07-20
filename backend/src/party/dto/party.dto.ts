@@ -3,8 +3,8 @@ import { UserDetails } from 'src/user/user-details.interface';
 export class CreatePartyDto {
   name: string;
   description?: string;
-  owner?: string;
+  owner?: UserDetails;
   limit?: number;
-  members?: Array<string>;
+  members?: Array<UserDetails>;
 }
 export type UpdatePartyDTO = Partial<CreatePartyDto>;

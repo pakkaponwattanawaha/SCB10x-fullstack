@@ -27,20 +27,28 @@ export class PartyController {
     return this.partyService.create(email, createPartyDto);
   }
 
+  @UseGuards(JwtGuard)
   @Get()
   findAllPartys(): Promise<PartyDocument[]> {
     return this.partyService.findAll();
   }
 
   @UseGuards(JwtGuard)
+  @Get('name/:name')
+  findPartyByName(@Param('name') name: string): Promise<PartyDocument[]> {
+    return this.partyService.findByName(name);
+  }
+
+  @UseGuards(JwtGuard)
   @UseGuards(OwnGuard)
   @Get(':id')
-  findparty(@Param('id') id: string): Promise<PartyDocument> {
+  findParty(@Param('id') id: string): Promise<PartyDocument> {
     return this.partyService.findById(id);
   }
 
+  @UseGuards(JwtGuard)
   @Patch()
-  updateparty(
+  joinParty(
     @Body('id') id: string,
     @Body('email') email: string,
   ): Promise<PartyDocument> {

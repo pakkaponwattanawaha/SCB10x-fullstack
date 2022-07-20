@@ -23,12 +23,9 @@ export class PartyService {
     console.log('user', user);
 
     const existingParty = await this.findByName(createPartyDto.name);
-    console.log(existingParty);
-    if (existingParty && existingParty?.owner?.email == email)
-      throw new HttpException(
-        'Party name already created!',
-        HttpStatus.CONFLICT,
-      );
+    console.log('existingParty', existingParty);
+    // if (existingParty && existingParty?.owner?.email == email)
+    //   throw new HttpException('Duplicate party name!', HttpStatus.CONFLICT);
 
     const newparty = new this.partyModel({
       owner: { ...user },
@@ -46,8 +43,8 @@ export class PartyService {
     return this.partyModel.findById(id).exec();
   }
 
-  async findByName(name: string): Promise<PartyDocument> {
-    return this.partyModel.findOne({ name }).exec();
+  async findByName(name: string): Promise<PartyDocument[]> {
+    return this.partyModel.find({ name }).exec();
   }
 
   async update(
@@ -62,23 +59,22 @@ export class PartyService {
 
     console.log('requested_user', requested_user);
     const existingparty = await this.findById(partyId);
+    console.log('existingparty', existingparty);
     if (!existingparty)
       throw new HttpException('Party not found!', HttpStatus.FORBIDDEN);
-    if (requested_email == existingparty.owner.email)
+    else if (existingparty.members.length >= existingparty.limit)
+      throw new HttpException('Party is full!', HttpStatus.FORBIDDEN);
+    else if (requested_email == existingparty.owner.email)
       throw new HttpException(
         'You are the owner of the party!',
         HttpStatus.FORBIDDEN,
       );
-    if (this.containsObject(requested_user, existingparty.members))
+    else if (this.containsObject(requested_user, existingparty.members))
       throw new HttpException(
         'User already joined the party!',
         HttpStatus.FORBIDDEN,
       );
     existingparty.members = [...existingparty.members, requested_user];
-    console.log(
-      'inclusion check',
-      this.containsObject(requested_user, existingparty.members),
-    );
     return existingparty.save();
   }
   containsObject(obj: UserDetails, list: UserDetails[]) {

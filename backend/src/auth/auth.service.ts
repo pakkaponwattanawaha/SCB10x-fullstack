@@ -72,7 +72,7 @@ export class AuthService {
 
   async login(
     existingUser: UserDTO,
-  ): Promise<{ token: string; id: string } | null> {
+  ): Promise<{ token: string; id: string; email: string } | null> {
     const { email, password } = existingUser;
     const user = await this.validateUser(email, password);
 
@@ -80,7 +80,7 @@ export class AuthService {
       throw new HttpException('Invalid Credentials!!', HttpStatus.UNAUTHORIZED);
 
     const jwt = await this.jwtService.signAsync({ user });
-    return { token: jwt, id: user.id };
+    return { token: jwt, id: user.id, email: email };
   }
 
   async verifyJwt(jwt: string): Promise<{ verified: boolean; exp: number }> {
