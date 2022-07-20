@@ -23,31 +23,12 @@ const Register = () => {
 
     console.log(formData);
     await axios
-      .post(`http://127.0.0.1:3333/api/v1/auth/register`, {
+      .post(`${API_ENDPOINT}auth/register`, {
         email: formData.email,
         password: formData.password,
       })
       .then((response) => {
         console.log("response", response);
-        localStorage.setItem("accessToken", response.data.token);
-        localStorage.setItem("id", response.data.id);
-        // console.log("Auth State", AuthState);
-        // console.log("response data login", response.data);
-        // //dispatch({ type: "LOGIN_SUCCESS", payload: { "id": response.data.id } })
-        // dispatch({ type: "SET_UID", payload: { id: response.data.id } });
-        // dispatch({
-        //   type: "SET_ACCESS_TOKEN",
-        //   payload: { token: response.data.token },
-        // });
-        // dispatch({
-        //   type: "SET_LOGIN_TYPE",
-        //   payload: { type: response.data.type },
-        // });
-        // dispatch({
-        //   type: "SET_NOTIFICATION_SESSION",
-        //   payload: { noti_session: new Date() },
-        // });
-
         Router.push("/login");
         return response;
       })

@@ -44,7 +44,7 @@ const Login = () => {
         return response;
       })
       .catch((error) => {
-        if (error.response) alert(error.response.data.message);
+        if (error.response) alert(error.response.data);
         console.log(error.response);
         return error;
       });
