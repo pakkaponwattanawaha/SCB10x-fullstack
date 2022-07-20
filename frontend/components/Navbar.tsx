@@ -1,9 +1,11 @@
 import { useRouter } from "next/router";
 import Link from "next/link";
 import Rocket from "public/Rocket.png";
+import { useDispatch } from "react-redux";
+import { logout } from "store/user/userSlice";
 export const Navbar = () => {
   const router = useRouter();
-
+  const dispatch = useDispatch();
   const createNavLink = (label: string, endpoint: string) => {
     const activeStyle = router.pathname.endsWith(endpoint)
       ? "text-gray-500 border-b-2 border-main1"
@@ -18,6 +20,9 @@ export const Navbar = () => {
         <a className={`mr-5 font-medium  ${activeStyle}`}>{label}</a>
       </Link>
     );
+  };
+  const logoutHandler = () => {
+    dispatch(logout());
   };
 
   return (
@@ -38,7 +43,7 @@ export const Navbar = () => {
         </div>
         <div className="flex flex-row items-center">
           <div className="flex flex-row py-2 px-4">
-            <button>Login</button>
+            <button onClick={() => logoutHandler()}>Logout</button>
           </div>
         </div>
       </nav>
