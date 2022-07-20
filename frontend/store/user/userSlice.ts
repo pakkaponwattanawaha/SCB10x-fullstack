@@ -32,14 +32,14 @@ export const userSlice = createSlice({
       action: PayloadAction<UserState>
     ) => {
       state.id = action.payload.id;
-      state.token = action.payload.token;
       state.email = action.payload.email;
+      state.token = action.payload.token;
       state.isLogin = action.payload.isLogin;
     },
     getUserDetails: (state: Draft<UserState>) => {
       if (typeof window !== "undefined") {
-        state.token = localStorage.getItem("id");
-        state.token = localStorage.getItem("email");
+        state.id = localStorage.getItem("id");
+        state.email = localStorage.getItem("email");
         state.token = localStorage.getItem("accessToken");
       }
     },

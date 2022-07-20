@@ -1,11 +1,13 @@
 import { useRouter } from "next/router";
 import Link from "next/link";
 import Rocket from "public/Rocket.png";
-import { useDispatch } from "react-redux";
-import { logout } from "store/user/userSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { getUserDetails, getUserState, logout } from "store/user/userSlice";
 export const Navbar = () => {
   const router = useRouter();
   const dispatch = useDispatch();
+  // dispatch(getUserDetails());
+  const { token } = useSelector(getUserState);
   const createNavLink = (label: string, endpoint: string) => {
     const activeStyle = router.pathname.endsWith(endpoint)
       ? "text-gray-500 border-b-2 border-main1"
@@ -23,6 +25,7 @@ export const Navbar = () => {
   };
   const logoutHandler = () => {
     dispatch(logout());
+    dispatch(getUserDetails());
   };
 
   return (
@@ -38,12 +41,16 @@ export const Navbar = () => {
         </Link>
         <div className="flex flex-row items-center justify-between mt-2 pl-36">
           {createNavLink("Party", "/")}
-          {createNavLink("Login", "/login")}
+          {createNavLink("Create", "/create")}
           {createNavLink("Register", "/register")}
         </div>
         <div className="flex flex-row items-center">
           <div className="flex flex-row py-2 px-4">
-            <button onClick={() => logoutHandler()}>Logout</button>
+            {token ? (
+              <button onClick={() => logoutHandler()}>Logout</button>
+            ) : (
+              <>{createNavLink("Login", "/login")}</>
+            )}
           </div>
         </div>
       </nav>
