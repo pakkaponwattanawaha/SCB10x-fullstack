@@ -18,6 +18,21 @@ import { OwnGuard } from './guards/own.guard';
 export class PartyController {
   constructor(private partyService: PartyService) {}
 
+  @Get()
+  findAllPartys(): Promise<PartyDocument[]> {
+    return this.partyService.findAll();
+  }
+
+  @Get('name/:name')
+  findPartyByName(@Param('name') name: string): Promise<PartyDocument[]> {
+    return this.partyService.findByName(name);
+  }
+
+  @Get(':id')
+  findParty(@Param('id') id: string): Promise<PartyDocument> {
+    return this.partyService.findById(id);
+  }
+  @UseGuards(JwtGuard)
   @Post()
   createparty(
     @Body('email') email: string,
@@ -28,25 +43,6 @@ export class PartyController {
   }
 
   @UseGuards(JwtGuard)
-  @Get()
-  findAllPartys(): Promise<PartyDocument[]> {
-    return this.partyService.findAll();
-  }
-
-  @UseGuards(JwtGuard)
-  @Get('name/:name')
-  findPartyByName(@Param('name') name: string): Promise<PartyDocument[]> {
-    return this.partyService.findByName(name);
-  }
-
-  @UseGuards(JwtGuard)
-  @UseGuards(OwnGuard)
-  @Get(':id')
-  findParty(@Param('id') id: string): Promise<PartyDocument> {
-    return this.partyService.findById(id);
-  }
-
-  @UseGuards(JwtGuard)
   @Patch()
   joinParty(
     @Body('id') id: string,
@@ -54,16 +50,6 @@ export class PartyController {
   ): Promise<PartyDocument> {
     return this.partyService.update(id, email);
   }
-
-  // update (join)
-  //  - cannot join your own
-  //  - cannot join twice
-  //  - cannot join when exceed limit
-
-  // findby id
-
-  // findby owner
-  // push to github
 
   @Delete(':id')
   deleteparty(@Param('id') id: string) {
