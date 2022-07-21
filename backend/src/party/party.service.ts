@@ -60,16 +60,16 @@ export class PartyService {
     console.log('existingparty', existingparty);
     if (!existingparty)
       throw new HttpException('Party not found!', HttpStatus.FORBIDDEN);
-    else if (existingparty.members.length >= existingparty.limit)
-      throw new HttpException('Party is full!', HttpStatus.FORBIDDEN);
     else if (requested_email == existingparty.owner.email)
       throw new HttpException(
         'You are the owner of the party!',
         HttpStatus.FORBIDDEN,
       );
+    else if (existingparty.members.length >= existingparty.limit)
+      throw new HttpException('Party is full!', HttpStatus.FORBIDDEN);
     else if (this.containsObject(requested_user, existingparty.members))
       throw new HttpException(
-        'User already joined the party!',
+        'You already joined the party!',
         HttpStatus.FORBIDDEN,
       );
     existingparty.members = [...existingparty.members, requested_user];
