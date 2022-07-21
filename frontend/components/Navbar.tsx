@@ -142,7 +142,7 @@ export const Navbar = () => {
                 {createDropDownLink("Party", "/")}
                 {createDropDownLink("Create", "/create")}
                 {token ? (
-                  <div className="text-gray-300 hover:bg-gray-500/20 transition duration-500 hover:text-white block px-3 py-2 rounded-md text-base font-medium ">
+                  <div className="text-gray-300 hover:bg-gray-500/20 transition duration-500 hover:text-white block px-5 py-2 rounded-md text-base font-medium ">
                     <button
                       className="flex w-full"
                       onClick={() => logoutHandler()}
