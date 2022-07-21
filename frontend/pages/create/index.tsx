@@ -16,7 +16,7 @@ import { CreateFormDataType } from "types";
 const InitFormData: CreateFormDataType = {
   name: "",
   description: "",
-  limit: 1,
+  limit: 2,
 };
 
 const CreateParty = () => {
@@ -56,19 +56,22 @@ const CreateParty = () => {
   }
   return (
     <RequireAuth>
-      <div className="pt-[96px]">
-        <form
-          onSubmit={(e) => onCreateHandler(e)}
-          className="w-full max-w-lg justify-self-center"
-        >
-          <CreatePartyForm formData={formData} setFormData={setFormData} />
-          <button
-            type="submit"
-            className="w-full bg-main1 hover:bg-blue-700 text-white font-bold py-2 px-4 mt-5 rounded-2xl focus:outline-none focus:shadow-outline"
+      <div className="z-0 pt-[96px] pb-16">
+        <h2 className="text-[36px] font-bold  pb-3 text-white">Create </h2>
+        <div className="p-20 rounded-md bg-gray-200 bg-clip-padding backdrop-filter backdrop-blur-md bg-opacity-20  border border-gray-200 border-opacity-30 shadow-2xl">
+          <form
+            onSubmit={(e) => onCreateHandler(e)}
+            className="sm:w-[360px] md:w-[480px] lg:w-[740px] justify-self-center "
           >
-            Create
-          </button>
-        </form>
+            <CreatePartyForm formData={formData} setFormData={setFormData} />
+            <button
+              type="submit"
+              className="w-full text-white bg-gray-200/20 hover:bg-gray-200/30 font-bold py-2 px-4 mt-5 rounded-2xl border border-gray-200 border-opacity-40 "
+            >
+              Create Party
+            </button>
+          </form>
+        </div>
       </div>
     </RequireAuth>
   );

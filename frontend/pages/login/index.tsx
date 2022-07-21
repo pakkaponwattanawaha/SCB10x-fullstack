@@ -1,5 +1,6 @@
 import axios from "axios";
 import { LoginForm } from "components/LoginForm";
+import Link from "next/link";
 import Router from "next/router";
 import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
@@ -44,25 +45,35 @@ const Login = () => {
         return response;
       })
       .catch((error) => {
-        if (error.response) alert(error.response.data);
+        if (error.response) alert(error.response.data.message);
         console.log(error.response);
         return error;
       });
   }
   return (
-    <div className="pt-[96px]">
-      <form
-        onSubmit={(e) => onLoginHandler(e)}
-        className="w-full max-w-lg justify-self-center"
-      >
-        <LoginForm formData={formData} setFormData={setFormData} />
-        <button
-          type="submit"
-          className="w-full bg-main1 hover:bg-blue-700 text-white font-bold py-2 px-4 mt-5 rounded-2xl focus:outline-none focus:shadow-outline"
+    <div className="z-0 pt-[96px] pb-16">
+      <h2 className="text-[36px] font-bold  pb-3 text-white ">Login </h2>
+      <div className="p-20 rounded-md bg-gray-200 bg-clip-padding backdrop-filter backdrop-blur-md bg-opacity-20  border border-gray-200 border-opacity-30 shadow-2xl">
+        <form
+          autoComplete="off"
+          onSubmit={(e) => onLoginHandler(e)}
+          className="sm:w-[360px] md:w-[480px] lg:w-[740px] max-w-lg justify-self-center z-50 pb-3"
         >
-          Submit
-        </button>
-      </form>
+          <LoginForm formData={formData} setFormData={setFormData} />
+          <button
+            type="submit"
+            className="w-full text-white bg-gray-200/20 hover:bg-gray-200/30 font-bold py-2 px-4 mt-5 rounded-2xl border border-gray-200 border-opacity-40 "
+          >
+            Login
+          </button>
+        </form>
+
+        <Link className="flex items-center" href={"/register"} replace>
+          <a className={`underline	text-white  text-sm font-medium mr-5 `}>
+            Register
+          </a>
+        </Link>
+      </div>
     </div>
   );
 };

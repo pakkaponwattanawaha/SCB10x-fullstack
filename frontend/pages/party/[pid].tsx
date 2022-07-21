@@ -30,6 +30,7 @@ export async function getServerSideProps({ query }) {
 
 const Pid: NextPage = ({ party }: any) => {
   const { email, token } = useSelector(getUserState);
+  console.log(party);
   const joinPartyHandler = async (e) => {
     e.preventDefault();
     const response = await axios
@@ -59,9 +60,60 @@ const Pid: NextPage = ({ party }: any) => {
 
   return (
     <RequireAuth>
-      <div className="pt-[96px]">
-        <div>Party:{JSON.stringify(party)}</div>
-        <button onClick={(e) => joinPartyHandler(e)}>Join</button>
+      <div className="pt-[96px] pb-16 ">
+        <div className="m-5 p-5 md:p-10 md:m-10 flex flex-col gap-2 rounded-md bg-gray-200 bg-clip-padding backdrop-filter backdrop-blur-md bg-opacity-20  border border-gray-200 border-opacity-30 shadow-2xl ">
+          <div className="flex items-center justify-between">
+            <h2 className="text-[24px] font-bold  text-white">{party.name} </h2>
+            {party.owner.email == email ? (
+              <div className="p-1.5 rounded-lg border border-gray-200 border-opacity-30 text-xs">
+                Owner
+              </div>
+            ) : (
+              <></>
+            )}
+          </div>
+          <h3 className="text-white">
+            Party Owner: <span className="font-bold">{party.owner.email}</span>
+          </h3>
+
+          <div>
+            <h2 className="pb-2">Description</h2>
+            <div className="p-2 rounded-xl border border-gray-200 border-opacity-20 overflow-auto overflow-x-hidden min-h-[78px] max-h-[180px] max-w-[1000px] sm:min-w-[420px] md:min-w-[640px] pt-2 ">
+              <span className="break-words  text-[14px]">
+                {party.description}
+              </span>
+            </div>
+          </div>
+          <div>
+            <h2 className="pb-2 text-[18px] font-medium text-white">
+              Members: {party.members.length}/{party.limit}
+            </h2>
+            <div className="flex flex-col p-3 rounded-xl border border-gray-200 border-opacity-20 overflow-auto overflow-x-hidden gap-3">
+              {party?.members ? (
+                party.members.map((member, idx) => {
+                  return (
+                    <div
+                      className="rounded-lg border border-gray-200 border-opacity-10 px-3 py-2 "
+                      key={idx}
+                    >
+                      {member.email}
+                    </div>
+                  );
+                })
+              ) : (
+                <></>
+              )}
+            </div>
+          </div>
+
+          <button
+            onClick={(e) => joinPartyHandler(e)}
+            type="button"
+            className="w-[150px] text-white bg-gray-200/20 hover:bg-gray-200/30 font-bold py-2 px-4 mt-5 rounded-2xl border border-gray-200 border-opacity-40 "
+          >
+            Join
+          </button>
+        </div>
       </div>
     </RequireAuth>
   );

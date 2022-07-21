@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { RegisterFormDataType } from "types";
 import { Dispatch, SetStateAction } from "react";
 export const RegisterForm = ({
@@ -8,6 +8,7 @@ export const RegisterForm = ({
   formData: RegisterFormDataType;
   setFormData: Dispatch<SetStateAction<RegisterFormDataType>>;
 }) => {
+  const [visible, setVisible] = useState<boolean>(false);
   return (
     <div>
       {" "}
@@ -31,7 +32,7 @@ export const RegisterForm = ({
               min="0"
               name="floating_last_name"
               id="floating_last_name"
-              className="block py-2.5 px-0 w-full text-m text-white-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+              className="block py-2.5 px-0 w-full text-m text-white-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:border-gray-600 dark:focus:border-purple-600 focus:outline-none focus:ring-0 focus:border-purple-600 peer"
               placeholder=" "
               required
             />
@@ -47,7 +48,7 @@ export const RegisterForm = ({
           >
             Password
           </label>
-          <div className="relative inline-flex items-center">
+          <div className="relative w-full inline-flex items-center">
             <input
               onChange={(e) =>
                 setFormData({
@@ -56,14 +57,22 @@ export const RegisterForm = ({
                 })
               }
               value={formData?.password}
-              type="password"
+              type={visible ? "text" : "password"}
+              autoComplete="new-password"
               name="floating_last_name"
               id="floating_last_name"
-              className="py-2.5 px-0 w-[50px] text-m text-white-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none  dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+              className="py-2.5 px-0 w-full text-m text-white-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none  dark:border-gray-600 dark:focus:border-purple-600 focus:outline-none focus:ring-0 focus:border-purple-600 peer"
               placeholder=" "
               required
             />
-            <span className="px-3 text-[16px] font-bold  ">%</span>
+
+            <img
+              onClick={() => {
+                setVisible(!visible);
+              }}
+              className="mx-5 w-[16px] mr-2 hover:text-gray-100 cursor-pointer"
+              src="/eye.png"
+            />
           </div>
         </div>
       </div>
@@ -75,7 +84,7 @@ export const RegisterForm = ({
           >
             Confirm Password
           </label>
-          <div className="relative inline-flex items-center">
+          <div className="relative w-full inline-flex items-center">
             <input
               onChange={(e) =>
                 setFormData({
@@ -84,15 +93,22 @@ export const RegisterForm = ({
                 })
               }
               value={formData?.confirmPassword}
-              type="password"
+              type={visible ? "text" : "password"}
+              autoComplete="new-password"
               name="floating_last_name"
               id="floating_last_name"
-              className="py-2.5 px-0 w-[50px] text-m text-white-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none  dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+              className="py-2.5 px-0 w-full text-m text-white-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none  dark:border-gray-600 dark:focus:border-purple-500 focus:outline-none focus:ring-0 focus:border-purple-600 peer"
               placeholder=" "
               required
             />
 
-            <span className="px-3 text-[16px] font-bold  ">%</span>
+            <img
+              onClick={() => {
+                setVisible(!visible);
+              }}
+              className="mx-5 w-[16px] mr-2 hover:text-gray-100 cursor-pointer"
+              src="/eye.png"
+            />
           </div>
           {formData?.confirmPassword !== formData?.password ? (
             <div className="pt-2 text-xs text-red-400">

@@ -23,7 +23,7 @@ const Register = () => {
 
     console.log(formData);
     await axios
-      .post(`${API_ENDPOINT}auth/register`, {
+      .post(`${API_ENDPOINT}/auth/register`, {
         email: formData.email,
         password: formData.password,
       })
@@ -39,20 +39,22 @@ const Register = () => {
       });
   }
   return (
-    <div className="pt-[96px] ">
-      Register
-      <form
-        onSubmit={(e) => onLoginHandler(e)}
-        className="w-full max-w-lg justify-self-center"
-      >
-        <RegisterForm formData={formData} setFormData={setFormData} />
-        <button
-          type="submit"
-          className="w-full bg-main1 hover:bg-blue-700 text-white font-bold py-2 px-4 mt-5 rounded-2xl focus:outline-none focus:shadow-outline"
+    <div className="pt-[96px] pb-16">
+      <h2 className="text-[36px] font-bold  pb-3 text-white">Register </h2>
+      <div className="pt-10 pb-20 px-20 rounded-md bg-gray-200 bg-clip-padding backdrop-filter backdrop-blur-md bg-opacity-20  border border-gray-200 border-opacity-20 shadow-2xl">
+        <form
+          onSubmit={(e) => onLoginHandler(e)}
+          className="sm:w-[360px] md:w-[480px] lg:w-[740px] max-w-lg justify-self-center z-50"
         >
-          Submit
-        </button>
-      </form>
+          <RegisterForm formData={formData} setFormData={setFormData} />
+          <button
+            type="submit"
+            className="w-full text-white bg-gray-200/20 hover:bg-gray-200/30 font-bold py-2 px-4 mt-5 rounded-2xl border border-gray-200 border-opacity-40 "
+          >
+            Register
+          </button>
+        </form>
+      </div>
     </div>
   );
 };
